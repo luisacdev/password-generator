@@ -11,6 +11,7 @@ import GenerateButton from './components/GenerateButton.vue';
 import PasswordDisplay from './components/PasswordDisplay.vue';
 import SliderInput from './components/SliderInput.vue';
 import StrengthIndicator from './components/StrengthIndicator.vue';
+import ThemeSelector from './components/ThemeSelector.vue';
 
 // Reactive variables
 const sliderValue = ref(4); // The length of the password
@@ -57,11 +58,13 @@ const showCopyToast = () => {
   showToast.value = true;
   setTimeout(() => showToast.value = false, 3000);
 };
-
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 mx-4 mt-16 text-pg-white">
+  <div class="flex gap-4 mx-4 mt-4">
+    <ThemeSelector />
+  </div>
+  <div class="flex flex-col gap-4 mx-4 mt-8 text-pg-white">
     <AppTitle text="Password Generator" />
     <PasswordDisplay
       :generatedPassword="generatedPassword"

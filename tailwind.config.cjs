@@ -14,6 +14,8 @@ module.exports = {
       'pg-red': '#F64A4A',
       'pg-orange': '#FB7C58',
       'pg-yellow': '#F8CD65',
+      'pg-blue': '#7FC6E8',
+      'pg-purple': '#C7A9E8',
     },
     fontFamily: {
       custom: ['JetBrains Mono', 'monospace'],

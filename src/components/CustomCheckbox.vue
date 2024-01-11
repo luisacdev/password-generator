@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, onMounted, nextTick } from 'vue'
+import { store } from '../store';
 import CheckIcon from '../assets/icons/CheckIcon.vue';
 
 // Define the checkboxes and their labels
@@ -58,7 +59,9 @@ onMounted(emitUpdate)
     <label :for="id" class="cursor-pointer flex items-center">
       <div class="relative flex items-center">
         <input :id="id" type="checkbox" :checked="checkboxState[id]" @change="() => updateCheckboxState(id)"
-          class="w-5 h-5 border-2 border-pg-white active:border-pg-green rounded-none checked:bg-pg-green checked:border-pg-green appearance-none">
+          class="appearance-none rounded-none w-5 h-5 border-2 border-pg-white"
+          :class="store.checksColorClasses[store.color]"
+          >
         <span v-if="checkboxState[id]" class="absolute inset-0 flex justify-center items-center">
           <CheckIcon />
         </span>

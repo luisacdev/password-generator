@@ -1,5 +1,7 @@
 <script setup>
+// TODO: Agregar icono alternativo que sea el ojo sin tachar
 import { computed } from 'vue';
+import { store } from '../store';
 import EyeIcon from '../assets/icons/EyeIcon.vue';
 import CopyIcon from '../assets/icons/CopyIcon.vue';
 import ToastNotification from './ToastNotification.vue';
@@ -45,12 +47,12 @@ async function handleCopyPassword() {
       </p>
     </div>
     <div class="w-5 mr-4 md:mr-8 my-auto" @click="handleToggleVisibility">
-      <EyeIcon class="text-pg-green active:text-pg-white" />
+      <EyeIcon class="active:text-pg-white" :class="store.textColorClasses[store.color]" />
     </div>
     <div class="w-5 mr-4 md:mr-8 my-auto" @click="handleCopyPassword">
-      <CopyIcon class="text-pg-green active:text-pg-white" />
+      <CopyIcon class="active:text-pg-white" :class="store.textColorClasses[store.color]" />
     </div>
-    <ToastNotification v-if="showToast" class="bg-pg-green text-pg-black">Password copied!</ToastNotification>
+    <ToastNotification v-if="showToast" class="text-pg-black" :class="store.backgroundColorClasses[store.color]">Password copied!</ToastNotification>
   </div>
 </template>
 

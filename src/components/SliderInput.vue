@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
+import { store } from '../store';
 
 // Define props to specify the component's expected props
 const props = defineProps({
@@ -22,6 +23,19 @@ const onInput = (event) => {
   const numericValue = Number(event.target.value);
   emits('sliderChange', numericValue);
 };
+
+// 'sliderStyle' is a computed property that generates an inline style object.
+// The styles are based on the current values stored in 'store.sliderColors', which are updated by the global state 'store.color'.
+const sliderStyle = computed(() => {
+  const currentColors = store.sliderColors[store.color] || {};
+  return {
+    '--fill-color': currentColors.fillColor,
+    '--thumb-border-color-active': currentColors.thumbBorderColorActive,
+    '--min': '4',
+    '--max': '20',
+    '--val': internalValue.value.toString(),
+  };
+});
 </script>
 
 <template>
@@ -32,7 +46,9 @@ const onInput = (event) => {
         </p>
       </div>
       <div class="flex grow-0 items-center">
-        <p class="font-custom font-bold text-pg-green text-md">
+        <p class="font-custom font-bold text-md"
+          :class="store.textColorClasses[store.color]"
+        >
               {{ value }}
         </p>
       </div>
@@ -40,7 +56,7 @@ const onInput = (event) => {
     <div class="flex custom_slider mx-4 mb-8">
       <input type="range" class="custom_slider" step="1" min="4" max="20"
          @input="onInput" v-model="internalValue"
-         style="--min: 4; --max: 20;" :style="{ '--val': internalValue }" />
+         :style="sliderStyle" />
     </div>
 </template>
 
@@ -50,10 +66,8 @@ $track-w: 100%;
 $track-h: 8px;
 $thumb-d: 28px;
 $track-c: #18171F;
-$filll-c: #A4FFAF;
 $thumb-c: #E6E5EA;
 $thumb-c-active: #18171F;
-$thumb-b-active: #A4FFAF;
 
 @mixin track($fill: 0) {
   box-sizing: border-box;
@@ -63,7 +77,7 @@ $thumb-b-active: #A4FFAF;
 
   @if $fill == 1 {
     .custom_slider & {
-      background: linear-gradient($filll-c, $filll-c)
+      background: linear-gradient(var(--fill-color), var(--fill-color))
         0/ var(--sx) 100% no-repeat $track-c;
     }
   }
@@ -71,7 +85,7 @@ $thumb-b-active: #A4FFAF;
 
 @mixin fill() {
   height: $track-h;
-  background: $filll-c;
+  background: var(--fill-color);
 }
 
 @mixin thumb() {
@@ -83,7 +97,7 @@ $thumb-b-active: #A4FFAF;
 
   &:active {
     background: $thumb-c-active;
-    border: 2px solid $thumb-b-active;
+    border: 2px solid var(--thumb-border-color-active);
   }
 }
 
