@@ -6,14 +6,19 @@ import DarkIcon from '../assets/icons/DarkIcon.vue';
 import LightIcon from '../assets/icons/LightIcon.vue';
 
 const colors = {
-  'green': { bgClass: 'bg-pg-green' },
-  'blue': { bgClass: 'bg-pg-blue' },
-  'purple': { bgClass: 'bg-pg-purple' },
+  'green': { bgClass: 'bg-green' },
+  'blue': { bgClass: 'bg-blue' },
+  'purple': { bgClass: 'bg-purple' },
+};
+
+// Function to switch themes
+const toggleTheme = () => {
+  store.isDarkTheme = !store.isDarkTheme;
 };
 </script>
 
 <template>
-  <div class="inline-flex p-2 bg-pg-dark-grey rounded-lg shadow space-x-4">
+  <div class="inline-flex p-2 bg-dark-grey rounded-lg shadow space-x-4">
     <!-- Selector de color -->
     <div v-for="(color, name) in colors" :key="name" class="flex items-center">
       <label :for="name" class="cursor-pointer">
@@ -26,12 +31,12 @@ const colors = {
         </div>
       </label>
     </div>
-    <!-- Iconos de tema oscuro y claro -->
-    <div class="flex items-center justify-center w-5 h-5">
-      <DarkIcon :class="store.textColorClasses[store.color]" />
-    </div>
-    <div class="flex items-center justify-center w-5 h-5">
+    <!-- Switcher de tema oscuro y claro -->
+    <div v-if="store.isDarkTheme" @click="toggleTheme" class="flex items-center justify-center w-5 h-5">
       <LightIcon :class="store.textColorClasses[store.color]" />
+    </div>
+    <div v-else @click="toggleTheme" class="flex items-center justify-center w-5 h-5">
+      <DarkIcon :class="store.textColorClasses[store.color]" />
     </div>
   </div>
 </template>

@@ -51,7 +51,7 @@ onUnmounted(() => {
         </p>
       </div>
       <div class="ml-auto pl-3">
-        <button class="text-pg-black" @click="closeToast">
+        <button class="text-black" @click="closeToast">
           ×
         </button>
       </div>

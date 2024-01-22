@@ -41,7 +41,7 @@ const sliderStyle = computed(() => {
 <template>
     <div class="flex mt-4 mx-4 mb-2">
       <div class="flex grow items-center">
-        <p class="font-custom font-bold text-pg-white text-sm">
+        <p class="font-custom font-bold text-white text-sm">
               Character Length
         </p>
       </div>

@@ -10,7 +10,7 @@ const props = defineProps({
 
 <template>
   <div class="text-center">
-    <h1 class="font-custom font-bold text-pg-grey text-md">
+    <h1 class="font-custom font-bold text-grey text-md">
       {{ props.text }}
     </h1>
   </div>

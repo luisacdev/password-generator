@@ -64,7 +64,7 @@ const showCopyToast = () => {
   <div class="flex gap-4 mx-4 mt-4">
     <ThemeSelector />
   </div>
-  <div class="flex flex-col gap-4 mx-4 mt-8 text-pg-white">
+  <div class="flex flex-col gap-4 mx-4 mt-8 text-white">
     <AppTitle text="Password Generator" />
     <PasswordDisplay
       :generatedPassword="generatedPassword"
@@ -74,7 +74,7 @@ const showCopyToast = () => {
       @toggleVisibility="togglePasswordVisibility"
       @copyPassword="showCopyToast"
     />
-    <div class="flex flex-col h-auto bg-pg-dark-grey">
+    <div class="flex flex-col h-auto bg-dark-grey">
       <SliderInput :value="sliderValue" @sliderChange="updateSliderValue" />
       <div class="flex flex-col mx-4 mb-8 md:mx-8">
         <CustomCheckbox @update:checkedOptions="updateCheckedOptions" />

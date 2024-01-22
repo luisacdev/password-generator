@@ -8,7 +8,7 @@ const emit = defineEmits(['generate']);
 
 <template>
     <div class="flex mx-4 mb-4 md:mx-8 md:mb-8">
-        <button class="flex justify-center items-center space-x-4 md:space-x-6 rounded-none h-14 md:h-16 w-full border-2 border-transparent text-pg-dark-grey"
+        <button class="flex justify-center items-center space-x-4 md:space-x-6 rounded-none h-14 md:h-16 w-full border-2 border-transparent text-dark-grey"
             @click="emit('generate')"
             :class="store.btnColorClasses[store.color]"
         >

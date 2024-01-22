@@ -19,7 +19,7 @@ const emit = defineEmits(['toggleVisibility', 'copyPassword']);
 
 // Computed property to determine the text color class based on isPlaceholderPassword
 const passwordColorClass = computed(() => {
-  return props.isPlaceholderPassword ? 'text-pg-grey' : 'text-pg-white';
+  return props.isPlaceholderPassword ? 'text-grey' : 'text-white';
 });
 
 // Handler function to toggle password visibility
@@ -40,19 +40,19 @@ async function handleCopyPassword() {
 </script>
 
 <template>
-  <div class="flex flex-row h-16 md:h-20 items-center bg-pg-dark-grey">
+  <div class="flex flex-row h-16 md:h-20 items-center bg-dark-grey">
     <div class="flex-auto ml-4 md:ml-8 my-auto">
       <p class="font-custom font-bold sm:text-body md:text-md" :class="passwordColorClass">
         {{ isPasswordVisible ? generatedPassword : '•'.repeat(generatedPassword.length) }}
       </p>
     </div>
     <div class="w-5 mr-4 md:mr-8 my-auto" @click="handleToggleVisibility">
-      <EyeIcon class="active:text-pg-white" :class="store.textColorClasses[store.color]" />
+      <EyeIcon class="active:text-white" :class="store.textColorClasses[store.color]" />
     </div>
     <div class="w-5 mr-4 md:mr-8 my-auto" @click="handleCopyPassword">
-      <CopyIcon class="active:text-pg-white" :class="store.textColorClasses[store.color]" />
+      <CopyIcon class="active:text-white" :class="store.textColorClasses[store.color]" />
     </div>
-    <ToastNotification v-if="showToast" class="text-pg-black" :class="store.backgroundColorClasses[store.color]">Password copied!</ToastNotification>
+    <ToastNotification v-if="showToast" class="text-black" :class="store.backgroundColorClasses[store.color]">Password copied!</ToastNotification>
   </div>
 </template>
 
