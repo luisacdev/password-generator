@@ -25,15 +25,23 @@ const onInput = (event) => {
 };
 
 // 'sliderStyle' is a computed property that generates an inline style object.
-// The styles are based on the current values stored in 'store.sliderColors', which are updated by the global state 'store.color'.
+// The styles are based on the current values stored in 'store.colors', 'store.isDarkTheme', and 'internalValue'.
 const sliderStyle = computed(() => {
-  const currentColors = store.sliderColors[store.color] || {};
+  const color = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.color : store.themes.light.colors[store.color].sliderColors.color;
+  const track = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.track : store.themes.light.colors[store.color].sliderColors.track;
+  const thumb = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.thumb : store.themes.light.colors[store.color].sliderColors.thumb;
+  const thumbActive = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.thumbActive : store.themes.light.colors[store.color].sliderColors.thumbActive;
+  const val = internalValue.value.toString();
+
   return {
-    '--fill-color': currentColors.fillColor,
-    '--thumb-border-color-active': currentColors.thumbBorderColorActive,
+    '--fill-color': color,
+    '--thumb-border-color-active': color,
     '--min': '4',
     '--max': '20',
-    '--val': internalValue.value.toString(),
+    '--val': val,
+    '--track-c': track,
+    '--thumb-c': thumb,
+    '--thumb-c-active': thumbActive,
   };
 });
 </script>
@@ -41,13 +49,15 @@ const sliderStyle = computed(() => {
 <template>
     <div class="flex mt-4 mx-4 mb-2">
       <div class="flex grow items-center">
-        <p class="font-custom font-bold text-white text-sm">
+        <p class="font-custom font-bold text-sm"
+          :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+        >
               Character Length
         </p>
       </div>
       <div class="flex grow-0 items-center">
         <p class="font-custom font-bold text-md"
-          :class="store.textColorClasses[store.color]"
+          :class="store.isDarkTheme ? store.themes.dark.colors[store.color].textStyles : store.themes.light.colors[store.color].textStyles"
         >
               {{ value }}
         </p>
@@ -55,8 +65,9 @@ const sliderStyle = computed(() => {
     </div>
     <div class="flex custom_slider mx-4 mb-8">
       <input type="range" class="custom_slider" step="1" min="4" max="20"
-         @input="onInput" v-model="internalValue"
-         :style="sliderStyle" />
+        @input="onInput" v-model="internalValue"
+        :style="sliderStyle"
+      />
     </div>
 </template>
 
@@ -65,9 +76,9 @@ const sliderStyle = computed(() => {
 $track-w: 100%;
 $track-h: 8px;
 $thumb-d: 28px;
-$track-c: #18171F;
-$thumb-c: #E6E5EA;
-$thumb-c-active: #18171F;
+$track-c: var(--track-c);
+$thumb-c: var(--thumb-c);
+$thumb-c-active: var(--thumb-c-active);
 
 @mixin track($fill: 0) {
   box-sizing: border-box;

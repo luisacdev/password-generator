@@ -1,9 +1,7 @@
 <script setup>
-// TODO: Dark & Light Theme
-// TODO: Change Accent Color
-
 import { ref, computed, reactive } from 'vue';
 import { evaluatePassword, generatePassword } from './utils/passwordUtils';
+import { store } from './store';
 
 import AppTitle from './components/AppTitle.vue';
 import CustomCheckbox from './components/CustomCheckbox.vue';
@@ -61,26 +59,34 @@ const showCopyToast = () => {
 </script>
 
 <template>
-  <div class="flex gap-4 mx-4 mt-4">
-    <ThemeSelector />
-  </div>
-  <div class="flex flex-col gap-4 mx-4 mt-8 text-white">
-    <AppTitle text="Password Generator" />
-    <PasswordDisplay
-      :generatedPassword="generatedPassword"
-      :isPlaceholderPassword="isPlaceholderPassword"
-      :isPasswordVisible="isPasswordVisible"
-      :showToast="showToast"
-      @toggleVisibility="togglePasswordVisibility"
-      @copyPassword="showCopyToast"
-    />
-    <div class="flex flex-col h-auto bg-dark-grey">
-      <SliderInput :value="sliderValue" @sliderChange="updateSliderValue" />
-      <div class="flex flex-col mx-4 mb-8 md:mx-8">
-        <CustomCheckbox @update:checkedOptions="updateCheckedOptions" />
+  <div id="app" class="h-screen w-screen"
+    :class="store.isDarkTheme ? store.themes.dark.pBackground : store.themes.light.pBackground"
+  >
+    <div class="flex gap-4 mx-4 pt-4">
+      <ThemeSelector />
+    </div>
+    <div class="flex flex-col gap-4 mx-4 mt-8"
+      :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+    >
+      <AppTitle text="Password Generator" />
+      <PasswordDisplay
+        :generatedPassword="generatedPassword"
+        :isPlaceholderPassword="isPlaceholderPassword"
+        :isPasswordVisible="isPasswordVisible"
+        :showToast="showToast"
+        @toggleVisibility="togglePasswordVisibility"
+        @copyPassword="showCopyToast"
+      />
+      <div class="flex flex-col h-auto"
+        :class="store.isDarkTheme ? store.themes.dark.sBackground : store.themes.light.sBackground"
+      >
+        <SliderInput :value="sliderValue" @sliderChange="updateSliderValue" />
+        <div class="flex flex-col mx-4 mb-8 md:mx-8">
+          <CustomCheckbox @update:checkedOptions="updateCheckedOptions" />
+        </div>
+        <StrengthIndicator :securityLevel="securityLevel" />
+        <GenerateButton @generate="generatePasswordHandler" />
       </div>
-      <StrengthIndicator :securityLevel="securityLevel" />
-      <GenerateButton @generate="generatePasswordHandler" />
     </div>
   </div>
 </template>

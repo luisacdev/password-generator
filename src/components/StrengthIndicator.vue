@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { store } from '../store';
 
 // Define props to specify the component's expected props
 const props = defineProps({
@@ -24,9 +25,15 @@ let inactiveBoxes = computed(() => new Array(option.value.inactive).fill(false))
 </script>
 
 <template>
-    <div class="flex h-14 md:h-16 mx-4 mb-4 md:mx-8 md:mb-8 bg-black justify-between">
-        <div class="ml-4 my-auto font-custom font-bold text-grey text-sm">STRENGTH</div>
-        <div v-if="option" class="flex items-center mr-4 my-auto font-custom font-bold text-white text-body">
+    <div class="flex h-14 md:h-16 mx-4 mb-4 md:mx-8 md:mb-8 justify-between"
+      :class="store.isDarkTheme ? store.themes.dark.pBackground : store.themes.light.pBackground"
+    >
+        <div class="ml-4 my-auto font-custom font-bold text-sm"
+          :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+        > STRENGTH </div>
+        <div v-if="option" class="flex items-center mr-4 my-auto font-custom font-bold text-body"
+          :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+        >
             <div class="mr-4">{{ option.text }}</div>
             <div v-for="(isActive, index) in [...activeBoxes, ...inactiveBoxes]" 
                 :key="`${isActive ? 'active' : 'inactive'}-${index}`"

@@ -8,9 +8,9 @@ const emit = defineEmits(['generate']);
 
 <template>
     <div class="flex mx-4 mb-4 md:mx-8 md:mb-8">
-        <button class="flex justify-center items-center space-x-4 md:space-x-6 rounded-none h-14 md:h-16 w-full border-2 border-transparent text-dark-grey"
+        <button class="flex justify-center items-center space-x-4 md:space-x-6 rounded-none h-14 md:h-16 w-full border-2"
             @click="emit('generate')"
-            :class="store.btnColorClasses[store.color]"
+            :class="store.isDarkTheme ? store.themes.dark.colors[store.color].btnStyles : store.themes.light.colors[store.color].btnStyles"
         >
             <p class="uppercase font-custom font-bold">Generate</p>
             <ArrowRightIcon />

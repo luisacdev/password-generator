@@ -59,10 +59,10 @@ onMounted(emitUpdate)
     <label :for="id" class="cursor-pointer flex items-center">
       <div class="relative flex items-center">
         <input :id="id" type="checkbox" :checked="checkboxState[id]" @change="() => updateCheckboxState(id)"
-          class="appearance-none rounded-none w-5 h-5 border-2 border-white"
-          :class="store.checksColorClasses[store.color]"
+          class="appearance-none rounded-none w-5 h-5 border-2"
+          :class="store.isDarkTheme ? store.themes.dark.colors[store.color].cboxStyles : store.themes.light.colors[store.color].cboxStyles"
           >
-        <span v-if="checkboxState[id]" class="absolute inset-0 flex justify-center items-center">
+        <span v-if="checkboxState[id]" class="absolute inset-0 flex justify-center items-center text-black">
           <CheckIcon />
         </span>
       </div>

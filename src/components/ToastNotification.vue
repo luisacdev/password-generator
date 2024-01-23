@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { store } from '../store';
 
 // Define a ref for controlling visibility
 const visible = ref(false);
@@ -46,7 +47,9 @@ onUnmounted(() => {
   >
     <div class="flex items-center">
       <div class="ml-3">
-        <p class="font-custom font-bold text-sm" :class="textColor">
+        <p class="font-custom font-bold text-sm"
+          :class="store.isDarkTheme ? store.themes.light.textColor : store.themes.dark.textColor"
+        >
           <slot></slot>
         </p>
       </div>
