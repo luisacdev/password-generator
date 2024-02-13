@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue'
-import { store } from '../store';
 
 // Define props to specify the component's expected props
 const props = defineProps({
-  securityLevel: Number
+  securityLevel: Number,
+  themeData: Object,  
 })
 
 // Define options for different security levels
@@ -26,13 +26,13 @@ let inactiveBoxes = computed(() => new Array(option.value.inactive).fill(false))
 
 <template>
     <div class="flex h-14 md:h-16 mx-4 mb-4 md:mx-8 md:mb-8 justify-between"
-      :class="store.isDarkTheme ? store.themes.dark.pBackground : store.themes.light.pBackground"
+      :class="themeData.pBackground"
     >
         <div class="ml-4 my-auto font-custom font-bold text-sm"
-          :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+          :class="themeData.pTextColor"
         > STRENGTH </div>
         <div v-if="option" class="flex items-center mr-4 my-auto font-custom font-bold text-body"
-          :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+          :class="themeData.pTextColor"
         >
             <div class="mr-4">{{ option.text }}</div>
             <div v-for="(isActive, index) in [...activeBoxes, ...inactiveBoxes]" 

@@ -16,7 +16,8 @@ export const store = reactive({
     dark: {
       pBackground: 'bg-black',
       sBackground: 'bg-dark-grey',
-      textColor: 'text-white',
+      pTextColor: 'text-white',
+      sTextColor: 'text-black',
       colors: {
         green: {
           accentColor: 'bg-dm-teal',
@@ -59,7 +60,8 @@ export const store = reactive({
     light: {
       pBackground: 'bg-white',
       sBackground: 'bg-light-grey',
-      textColor: 'text-black',
+      pTextColor: 'text-black',
+      sTextColor: 'text-white',
       containerBackground: 'bg-light-grey',
       colors: {
         green: {

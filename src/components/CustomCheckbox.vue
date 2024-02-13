@@ -1,7 +1,11 @@
 <script setup>
 import { reactive, onMounted, nextTick } from 'vue'
-import { store } from '../store';
 import CheckIcon from '../assets/icons/CheckIcon.vue';
+
+// Define props for the component
+const props = defineProps({
+  themeData: Object,
+});
 
 // Define the checkboxes and their labels
 const checkboxes = {
@@ -60,10 +64,10 @@ onMounted(emitUpdate)
       <div class="relative flex items-center">
         <input :id="id" type="checkbox" :checked="checkboxState[id]" @change="() => updateCheckboxState(id)"
           class="appearance-none rounded-none w-5 h-5 border-2"
-          :class="store.isDarkTheme ? store.themes.dark.colors[store.color].cboxStyles : store.themes.light.colors[store.color].cboxStyles"
+          :class="themeData.styles.cboxStyles"
           >
-        <span v-if="checkboxState[id]" class="absolute inset-0 flex justify-center items-center text-black">
-          <CheckIcon />
+        <span v-if="checkboxState[id]" class="absolute inset-0 flex justify-center items-center">
+          <CheckIcon :class="themeData.sTextColor" />
         </span>
       </div>
       <span class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ labelText }}</span>

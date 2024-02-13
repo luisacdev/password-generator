@@ -28,6 +28,36 @@ const passwordOptions = reactive({
 
 const securityLevel = computed(() => evaluatePassword(generatedPassword.value));
 
+// Computed object to store current theme styles
+const currentThemeStyles = computed(() => {
+  const mode = store.isDarkTheme ? 'dark' : 'light';
+  const color = store.color;
+
+  return {
+    accentColor: store.themes[mode].colors[color].accentColor,
+    btnStyles: store.themes[mode].colors[color].btnStyles,
+    cboxStyles: store.themes[mode].colors[color].cboxStyles,
+    textStyles: store.themes[mode].colors[color].textStyles,
+    sliderColors: store.themes[mode].colors[color].sliderColors
+  };
+});
+
+// Computed object to store theme data
+const themeData = computed(() => {
+  const mode = store.isDarkTheme ? 'dark' : 'light';
+
+  return {
+    isDarkTheme: store.isDarkTheme,
+    color: store.color,
+    colors: store.themes[mode].colors,
+    styles: currentThemeStyles.value,
+    pBackground: store.themes[mode].pBackground,
+    sBackground: store.themes[mode].sBackground,
+    pTextColor: store.themes[mode].pTextColor,
+    sTextColor: store.themes[mode].sTextColor,
+  };
+});
+
 // Function to update the password length
 const updateSliderValue = (newValue) => {
   sliderValue.value = newValue;
@@ -56,36 +86,58 @@ const showCopyToast = () => {
   showToast.value = true;
   setTimeout(() => showToast.value = false, 3000);
 };
+
+// Function to toggle the theme
+const toggleTheme = () => {
+  store.isDarkTheme = !store.isDarkTheme;
+};
+
+// Function to change the color
+const changeColor = (newColor) => {
+  console.log("Manejando cambio de color a:", newColor);
+  store.color = newColor;
+};
+
+import { watch } from 'vue';
+
+watch(() => store.color, (newVal) => {
+  console.log("store.color cambió a:", newVal);
+});
 </script>
 
 <template>
   <div id="app" class="h-screen w-screen"
-    :class="store.isDarkTheme ? store.themes.dark.pBackground : store.themes.light.pBackground"
+    :class="themeData.pBackground"
   >
     <div class="flex gap-4 mx-4 pt-4">
-      <ThemeSelector />
+        <ThemeSelector
+          :themeData="themeData"
+          @toggle-theme="toggleTheme"
+          @change-color="changeColor"
+        />
     </div>
     <div class="flex flex-col gap-4 mx-4 mt-8"
-      :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+      :class="themeData.pTextColor"
     >
-      <AppTitle text="Password Generator" />
+      <AppTitle text="Password Generator" :themeData="themeData" />
       <PasswordDisplay
         :generatedPassword="generatedPassword"
         :isPlaceholderPassword="isPlaceholderPassword"
         :isPasswordVisible="isPasswordVisible"
         :showToast="showToast"
+        :themeData="themeData"
         @toggleVisibility="togglePasswordVisibility"
         @copyPassword="showCopyToast"
       />
       <div class="flex flex-col h-auto"
-        :class="store.isDarkTheme ? store.themes.dark.sBackground : store.themes.light.sBackground"
+        :class="themeData.sBackground"
       >
-        <SliderInput :value="sliderValue" @sliderChange="updateSliderValue" />
+        <SliderInput :value="sliderValue" @sliderChange="updateSliderValue" :themeData="themeData"/>
         <div class="flex flex-col mx-4 mb-8 md:mx-8">
-          <CustomCheckbox @update:checkedOptions="updateCheckedOptions" />
+          <CustomCheckbox @update:checkedOptions="updateCheckedOptions" :themeData="themeData"/>
         </div>
-        <StrengthIndicator :securityLevel="securityLevel" />
-        <GenerateButton @generate="generatePasswordHandler" />
+        <StrengthIndicator :securityLevel="securityLevel" :themeData="themeData" />
+        <GenerateButton @generate="generatePasswordHandler" text="Generate" :themeData="themeData" />
       </div>
     </div>
   </div>

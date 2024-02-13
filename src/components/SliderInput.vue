@@ -1,10 +1,10 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
-import { store } from '../store';
 
 // Define props to specify the component's expected props
 const props = defineProps({
-  value: Number
+  value: Number,
+  themeData: Object,
 });
 
 // Define an emit function to communicate with the parent component
@@ -25,12 +25,12 @@ const onInput = (event) => {
 };
 
 // 'sliderStyle' is a computed property that generates an inline style object.
-// The styles are based on the current values stored in 'store.colors', 'store.isDarkTheme', and 'internalValue'.
+// The styles are based on the current values stored in 'themeData' and 'internalValue'.
 const sliderStyle = computed(() => {
-  const color = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.color : store.themes.light.colors[store.color].sliderColors.color;
-  const track = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.track : store.themes.light.colors[store.color].sliderColors.track;
-  const thumb = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.thumb : store.themes.light.colors[store.color].sliderColors.thumb;
-  const thumbActive = store.isDarkTheme ? store.themes.dark.colors[store.color].sliderColors.thumbActive : store.themes.light.colors[store.color].sliderColors.thumbActive;
+  const color = props.themeData.styles.sliderColors.color;
+  const track = props.themeData.styles.sliderColors.track;
+  const thumb = props.themeData.styles.sliderColors.thumb;
+  const thumbActive = props.themeData.styles.sliderColors.thumbActive;
   const val = internalValue.value.toString();
 
   return {
@@ -50,14 +50,14 @@ const sliderStyle = computed(() => {
     <div class="flex mt-4 mx-4 mb-2">
       <div class="flex grow items-center">
         <p class="font-custom font-bold text-sm"
-          :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+          :class="themeData.pTextColor"
         >
               Character Length
         </p>
       </div>
       <div class="flex grow-0 items-center">
         <p class="font-custom font-bold text-md"
-          :class="store.isDarkTheme ? store.themes.dark.colors[store.color].textStyles : store.themes.light.colors[store.color].textStyles"
+          :class="themeData.styles.textStyles"
         >
               {{ value }}
         </p>

@@ -1,6 +1,4 @@
 <script setup>
-import { computed } from 'vue';
-import { store } from '../store';
 import EyeIcon from '../assets/icons/EyeIcon.vue';
 import CopyIcon from '../assets/icons/CopyIcon.vue';
 import ToastNotification from './ToastNotification.vue';
@@ -11,6 +9,7 @@ const props = defineProps({
   isPlaceholderPassword: Boolean,
   isPasswordVisible: Boolean,
   showToast: Boolean,
+  themeData: Object,
 });
 
 // Define an emit function to communicate with the parent component
@@ -35,27 +34,27 @@ async function handleCopyPassword() {
 
 <template>
   <div class="flex flex-row h-16 md:h-20 items-center"
-    :class="store.isDarkTheme ? store.themes.dark.sBackground : store.themes.light.sBackground"
+    :class="themeData.sBackground"
   >
     <div class="flex-auto ml-4 md:ml-8 my-auto">
       <p class="font-custom font-bold sm:text-body md:text-md"
-        :class="store.isDarkTheme ? store.themes.dark.textColor : store.themes.light.textColor"
+        :class="themeData.pTextColor"
       >
         {{ isPasswordVisible ? generatedPassword : '•'.repeat(generatedPassword.length) }}
       </p>
     </div>
     <div class="w-5 mr-4 md:mr-8 my-auto" @click="handleToggleVisibility">
       <EyeIcon class="active:text-white"
-        :class="store.isDarkTheme ? store.themes.dark.colors[store.color].textStyles : store.themes.light.colors[store.color].textStyles"
+        :class="themeData.styles.textStyles"
       />
     </div>
     <div class="w-5 mr-4 md:mr-8 my-auto" @click="handleCopyPassword">
       <CopyIcon class="active:text-white"
-        :class="store.isDarkTheme ? store.themes.dark.colors[store.color].textStyles : store.themes.light.colors[store.color].textStyles"
+      :class="themeData.styles.textStyles"
       />
     </div>
-    <ToastNotification v-if="showToast" class="text-black"
-    :class="store.isDarkTheme ? store.themes.dark.colors[store.color].accentColor : store.themes.light.colors[store.color].accentColor"
+    <ToastNotification v-if="showToast"
+    :themeData="themeData"
     >Password copied!</ToastNotification>
   </div>
 </template>

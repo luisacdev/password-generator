@@ -1,38 +1,49 @@
 <script setup>
-import { store } from '../store';
+import { defineProps, defineEmits } from 'vue'; // Import the missing functions
 import CheckIcon from '../assets/icons/CheckIcon.vue';
 import DarkIcon from '../assets/icons/DarkIcon.vue';
 import LightIcon from '../assets/icons/LightIcon.vue';
 
-// Function to switch themes
+// Define props for the component
+const props = defineProps({
+  themeData: Object,
+});
+
+// Define emits for the component
+const emit = defineEmits(['toggle-theme', 'change-color']);
+
+// Function to toggle the theme
 const toggleTheme = () => {
-  store.isDarkTheme = !store.isDarkTheme;
+  emit('toggle-theme');
 };
 
+// Function to change the color
+const changeColor = (newColor) => {
+  console.log("Emitiendo cambio de color:", newColor);
+  emit('change-color', newColor);
+};
 </script>
 
 <template>
   <div class="inline-flex p-2 rounded-lg shadow space-x-4"
-    :class="store.isDarkTheme ? store.themes.dark.sBackground : store.themes.light.sBackground"
+    :class="themeData.sBackground"
   >
-    <!-- Selector de color -->
-    <div v-for="(color, name) in store.isDarkTheme ? store.themes.dark.colors : store.themes.light.colors" :key="name" class="flex items-center">
+    <div v-for="(color, name) in themeData.colors" :key="name" class="flex items-center">
       <label :for="name" class="cursor-pointer">
         <div class="relative flex items-center justify-center w-5 h-5" :class="color.accentColor">
-          <input :id="name" type="radio" :value="name" v-model="store.color" class="opacity-0 absolute inset-0 w-full h-full">
+          <input :id="name" type="checkbox" :value="name" @change="() => changeColor(name)" class="opacity-0 absolute inset-0 w-full h-full">
           <span class="flex justify-center items-center">
-            <CheckIcon v-if="store.color === name" />
+            <CheckIcon v-if="themeData.color === name" :class="themeData.sTextColor" />
           </span>
         </div>
       </label>
     </div>
-    <!-- Switcher de tema oscuro y claro -->
     <div @click="toggleTheme" class="flex items-center justify-center w-5 h-5">
-      <template v-if="store.isDarkTheme">
-        <LightIcon :class="store.themes.dark.textColor" />
+      <template v-if="themeData.isDarkTheme">
+        <LightIcon :class="themeData.pTextColor" />
       </template>
       <template v-else>
-        <DarkIcon :class="store.themes.light.textColor" />
+        <DarkIcon :class="themeData.pTextColor" />
       </template>
     </div>
   </div>
