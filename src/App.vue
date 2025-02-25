@@ -106,38 +106,40 @@ watch(() => store.color, (newVal) => {
 </script>
 
 <template>
-  <div id="app" class="h-screen w-screen"
+  <div id="app" class="min-h-screen w-full flex flex-col items-center justify-center"
     :class="themeData.pBackground"
   >
-    <div class="flex gap-4 mx-4 pt-4">
-        <ThemeSelector
-          :themeData="themeData"
-          @toggle-theme="toggleTheme"
-          @change-color="changeColor"
-        />
-    </div>
-    <div class="flex flex-col gap-4 mx-4 mt-8"
-      :class="themeData.pTextColor"
-    >
-      <AppTitle text="Password Generator" :themeData="themeData" />
-      <PasswordDisplay
-        :generatedPassword="generatedPassword"
-        :isPlaceholderPassword="isPlaceholderPassword"
-        :isPasswordVisible="isPasswordVisible"
-        :showToast="showToast"
-        :themeData="themeData"
-        @toggleVisibility="togglePasswordVisibility"
-        @copyPassword="showCopyToast"
-      />
-      <div class="flex flex-col h-auto"
-        :class="themeData.sBackground"
+    <div class="w-full max-w-md mx-auto">
+      <div class="flex gap-4 mx-4 pt-4">
+          <ThemeSelector
+            :themeData="themeData"
+            @toggle-theme="toggleTheme"
+            @change-color="changeColor"
+          />
+      </div>
+      <div class="flex flex-col gap-4 mx-4 mt-8"
+        :class="themeData.pTextColor"
       >
-        <SliderInput :value="sliderValue" @sliderChange="updateSliderValue" :themeData="themeData"/>
-        <div class="flex flex-col mx-4 mb-8 md:mx-8">
-          <CustomCheckbox @update:checkedOptions="updateCheckedOptions" :themeData="themeData"/>
+        <AppTitle text="Password Generator" :themeData="themeData" />
+        <PasswordDisplay
+          :generatedPassword="generatedPassword"
+          :isPlaceholderPassword="isPlaceholderPassword"
+          :isPasswordVisible="isPasswordVisible"
+          :showToast="showToast"
+          :themeData="themeData"
+          @toggleVisibility="togglePasswordVisibility"
+          @copyPassword="showCopyToast"
+        />
+        <div class="flex flex-col h-auto"
+          :class="themeData.sBackground"
+        >
+          <SliderInput :value="sliderValue" @sliderChange="updateSliderValue" :themeData="themeData"/>
+          <div class="flex flex-col mx-4 mb-8 md:mx-8">
+            <CustomCheckbox @update:checkedOptions="updateCheckedOptions" :themeData="themeData"/>
+          </div>
+          <StrengthIndicator :securityLevel="securityLevel" :themeData="themeData" />
+          <GenerateButton @generate="generatePasswordHandler" text="Generate" :themeData="themeData" />
         </div>
-        <StrengthIndicator :securityLevel="securityLevel" :themeData="themeData" />
-        <GenerateButton @generate="generatePasswordHandler" text="Generate" :themeData="themeData" />
       </div>
     </div>
   </div>
